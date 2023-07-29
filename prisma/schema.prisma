@@ -47,5 +47,5 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
-  universityId  String?   @db.ObjectId
+  createdAt     DateTime  @default(now())
 }
