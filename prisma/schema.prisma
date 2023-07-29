@@ -48,4 +48,18 @@ model User {
   accounts      Account[]
   sessions      Session[]
   createdAt     DateTime  @default(now())
+  links         Link[]
+}
+
+type Social {
+  name     String
+  username String
+  url      String
+  image    String
+}
+
+type Link {
+  title String
+  url   String
+  image String?
 }
