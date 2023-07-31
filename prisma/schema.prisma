@@ -49,6 +49,9 @@ model User {
   sessions      Session[]
   createdAt     DateTime  @default(now())
   links         Link[]
+  username      String?   @unique
+  password      String?
+  bio           String?
 }
 
 type Social {
