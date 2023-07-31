@@ -37,7 +37,7 @@ export default function Hero() {
       <div className="flex gap-4 m-auto">
         <Button className="font-semibold text-md" size="lg">Login</Button>
         <Button
-          className={`text-background bg-gradient-to-r ${gradients[currIndex]} transition-all duration-500 ease-in-out font-semibold text-md`}
+          className={`text-background bg-gradient-to-r ${gradients[currIndex]} transition-all duration-500 ease-in-out font-semibold text-md hover:opacity-70`}
           size="lg"
         >
           Create Profile
