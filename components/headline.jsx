@@ -2,8 +2,8 @@ import React from "react";
 
 function Headline({ words, gradients, currIndex }) {
   return (
-    <h1 className="text-6xl lg:text-8xl font-extrabold text-center">
-      <span className="flex flex-col md:block">
+    <h1 className="text-6xl md:text-7xl lg:text-8xl font-extrabold text-center">
+      <span className="flex flex-col lg:block">
         {words.map((word, index) => (
           <span
             key={index}
