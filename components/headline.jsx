@@ -13,7 +13,7 @@ function Headline({ words, gradients, currIndex }) {
                   gradients[currIndex] +
                   " bg-clip-text text-transparent"
                 : ""
-            } transition-all duration-500 ease-in-out delay-5`}
+            } transition-bg duration-500 ease-in-out`}
           >
             {word}
           </span>
