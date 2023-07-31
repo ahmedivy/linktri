@@ -1,7 +1,5 @@
 "use client";
 
-import Footer from "@/components/footer";
-import ThemeToggle from "@/components/theme-toggle";
 import Headline from "@/components/headline";
 import { useState, useEffect } from "react";
 
@@ -24,7 +22,7 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="pt-48 min-w-ful">
+    <main className="flex flex-col pt-48 min-w-ful items-center">
       <Headline words={words} gradients={gradients} currIndex={currIndex} />
     </main>
   );

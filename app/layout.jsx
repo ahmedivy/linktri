@@ -1,12 +1,12 @@
 import "./globals.css";
 import { cn } from "@/lib/utils";
-import { Open_Sans } from "next/font/google";
+import { Inter } from "next/font/google";
 
 import AuthProvider from "@/components/auth-provider";
 import ThemeProvider from "@/components/theme-provider";
 import Footer from "@/components/footer";
 
-const font = Open_Sans({ subsets: ["latin"] });
+const font = Inter({ subsets: ["latin"] });
 
 export const metadata = {
   title: "Linktri",
