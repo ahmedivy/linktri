@@ -17,16 +17,13 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <head />
-      <body
-        className={cn(
-          `flex flex-col items-center container min-h-screen justify-between`,
-          font.className
-        )}
-      >
-        <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
-          <AuthProvider>{children}</AuthProvider>
-          <Footer />
-        </ThemeProvider>
+      <body className={font.className}>
+        <div className="flex flex-col items-center container min-h-screen justify-between">
+          <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
+            <AuthProvider>{children}</AuthProvider>
+            <Footer />
+          </ThemeProvider>
+        </div>
       </body>
     </html>
   );
