@@ -1,11 +1,12 @@
 import "./globals.css";
-import { Montserrat } from "next/font/google";
-
 import { cn } from "@/lib/utils";
+import { Open_Sans } from "next/font/google";
+
 import AuthProvider from "@/components/auth-provider";
 import ThemeProvider from "@/components/theme-provider";
+import Footer from "@/components/footer";
 
-const font = Montserrat({ subsets: ["latin"] });
+const font = Open_Sans({ subsets: ["latin"] });
 
 export const metadata = {
   title: "Linktri",
@@ -16,11 +17,15 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <head />
-      <body className={cn(`min-h-screen`, font.className)}>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <AuthProvider>
-            {children}
-          </AuthProvider>
+      <body
+        className={cn(
+          `flex flex-col items-center container min-h-screen justify-between`,
+          font.className
+        )}
+      >
+        <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
+          <AuthProvider>{children}</AuthProvider>
+          <Footer />
         </ThemeProvider>
       </body>
     </html>
