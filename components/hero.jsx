@@ -1,11 +1,13 @@
 "use client";
 
+import Link from "next/link";
 import { Button } from "./ui/button";
 import { useState, useEffect } from "react";
 import Headline from "@/components/headline";
 import { useSession } from "next-auth/react";
-import { Dialog, DialogTrigger } from "@radix-ui/react-dialog";
-import LoginModal from "./register-modal";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import RegisterModal from "./register-modal";
+import LoginModal from "./login-modal";
 
 const words = ["Share.", "Inspire.", "Connect."];
 const gradients = [
@@ -16,7 +18,7 @@ const gradients = [
 
 export default function Hero() {
   const [currIndex, setCurrIndex] = useState(0);
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -35,20 +37,49 @@ export default function Hero() {
         </p>
       </div>
       <div className="flex gap-4 m-auto">
-        <Button className="font-semibold text-md" size="lg">
-          {session ? "Logout" : "Login"}
-        </Button>
-        <Dialog>
-          <DialogTrigger asChild>
+        {status == "authenticated" ? (
+          <>
+            <Button className="font-semibold text-md" size="lg">
+              Logout
+            </Button>
             <Button
               className={`text-background bg-gradient-to-r ${gradients[currIndex]} transition-all duration-500 ease-in-out font-semibold text-md hover:opacity-70`}
               size="lg"
             >
-              {session ? "My Profile" : "Create Profile"}
+              My Profile
             </Button>
-          </DialogTrigger>
-          <LoginModal />
-        </Dialog>
+          </>
+        ) : (
+          <>
+            <Link href="/login">
+              <Button className="font-semibold text-md" size="lg">
+                Login
+              </Button>
+            </Link>
+
+            {/* <Dialog>
+              <DialogTrigger asChild>
+                <Button className="font-semibold text-md" size="lg">
+                  Login
+                </Button>
+              </DialogTrigger>
+              <DialogContent>
+                <LoginModal />
+              </DialogContent>
+            </Dialog> */}
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button
+                  className={`text-background bg-gradient-to-r ${gradients[currIndex]} transition-all duration-500 ease-in-out font-semibold text-md hover:opacity-70`}
+                  size="lg"
+                >
+                  Create Profile
+                </Button>
+              </DialogTrigger>
+              <RegisterModal />
+            </Dialog>
+          </>
+        )}
       </div>
     </div>
   );

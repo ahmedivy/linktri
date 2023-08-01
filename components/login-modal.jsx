@@ -5,24 +5,22 @@ import { FcGoogle } from "react-icons/fc";
 import { useRouter } from "next/navigation";
 import { AiFillGithub } from "react-icons/ai";
 import { IoReloadOutline } from "react-icons/io5";
+import { signIn } from "next-auth/react";
 
 import {
   DialogContent,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import registerUser from "@/actions/register";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
-function RegisterModal() {
+function LoginModal() {
   const router = useRouter();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
   const [f, setF] = useState({
-    name: "",
-    username: "",
     email: "",
     password: "",
   });
@@ -31,29 +29,35 @@ function RegisterModal() {
     setF((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
+  const callbackUrl = "/";
+
   const onSubmit = async (e) => {
     e.preventDefault();
-
-    setLoading(true);
-    setError("");
-
-    if (f.password.length < 6) {
-      setError("Password must be at least 6 characters");
-      setLoading(false);
-      return;
-    }
-
-    const res = await registerUser(f);
-    if (res.error) {
-      setError(res.error);
-    } else {
+    try {
+      setLoading(true);
       setError("");
-      router.push(`/${res.user.username}`);
+
+      const result = await signIn("credentials", {
+        email: f.email,
+        password: f.password,
+        redirect: false,
+        callbackUrl,
+      });
+
+      setLoading(false);
+      if (result?.error) {
+        setError(result.error);
+      } else {
+        router.push(callback);
+      }
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+      setError(error.message);
     }
-    setLoading(false);
   };
 
-  const handleSocial = async (e) => {
+  const handleSocial = async () => {
     setError("Sorry, social login is not accessible at the moment 😓");
 
     setTimeout(() => {
@@ -62,32 +66,14 @@ function RegisterModal() {
   };
 
   return (
-    <DialogContent className="sm:max-w-[425px] mb-4">
-      <DialogHeader className="my-6">
-        <DialogTitle className="text-center text-2xl font-bold">
-          Create New Profile
-        </DialogTitle>
-      </DialogHeader>
+    <div className="sm:max-w-[425px] mb-4">
+      <div className="my-6">
+        <div className="text-center text-2xl font-bold">
+          Login to your Profile
+        </div>
+      </div>
       <form onSubmit={onSubmit}>
         <div className="flex flex-col gap-4">
-          <Input
-            required
-            id="name"
-            name="name"
-            type="text"
-            placeholder="Name"
-            value={f.name}
-            onChange={onChange}
-          />
-          <Input
-            required
-            id="username"
-            name="username"
-            type="text"
-            placeholder="@username"
-            value={f.username}
-            onChange={onChange}
-          />
           <Input
             required
             id="email"
@@ -111,7 +97,7 @@ function RegisterModal() {
 
           <Button type="submit" className="font-semibold" disabled={loading}>
             {loading && <IoReloadOutline className="animate-spin mr-2" />}
-            {loading ? "Creating Profile" : "Create Profile"}
+            {loading ? "Loading..." : "Login"}
           </Button>
 
           <div className="relative">
@@ -120,7 +106,7 @@ function RegisterModal() {
             </div>
             <div className="relative flex justify-center text-xs uppercase">
               <span className="bg-background px-2 text-muted-foreground">
-                Or continue with
+                Or login with
               </span>
             </div>
           </div>
@@ -133,8 +119,8 @@ function RegisterModal() {
           </Button>
         </div>
       </form>
-    </DialogContent>
+    </div>
   );
 }
 
-export default RegisterModal;
+export default LoginModal;

@@ -13,14 +13,17 @@ export const metadata = {
   description: "Get more out of your Instagram bio link",
 };
 
-export default function RootLayout({ children }) {
+export default function RootLayout(props) {
   return (
     <html lang="en" suppressHydrationWarning>
       <head />
       <body className={font.className}>
         <div className="flex flex-col items-center container min-h-screen justify-between">
           <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
-            <AuthProvider>{children}</AuthProvider>
+            <AuthProvider>
+              {props.children}
+              {props.modal}
+            </AuthProvider>
             <Footer />
           </ThemeProvider>
         </div>
